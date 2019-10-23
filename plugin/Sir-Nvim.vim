@@ -1,7 +1,13 @@
 let g:highlightactive=get(g:, 'highlightactive', 1)
-hi InnerScope ctermbg=8 ctermfg=none cterm=none
-hi OuterScope ctermbg=8 ctermfg=none cterm=none
-hi LinkScope  ctermbg=8 ctermfg=none cterm=none
+if &bg=="dark"
+    hi InnerScope ctermbg=234 ctermfg=none cterm=none
+    hi OuterScope ctermbg=236 ctermfg=none cterm=none
+    hi LinkScope  ctermbg=238 ctermfg=none cterm=none
+else
+    hi InnerScope ctermbg=255 ctermfg=none cterm=none
+    hi OuterScope ctermbg=252 ctermfg=none cterm=none
+    hi LinkScope  ctermbg=250 ctermfg=none cterm=none
+endif
 
 " so we want to search but not change search
 map  :call Search()<cr>
@@ -189,7 +195,12 @@ func! BlinkLineAndColumn()
 
     let s:distl = &scroll
     let s:distc = winwidth('.') * 9 / 10
-    let s:colors = ['235', '234', '233']
+    let s:colors = []
+    if &bg=="dark"
+        let s:colors = ['235', '234', '233']
+    else
+        let s:colors = ['255', '253', '251']
+    endif
 
     if s:lastfile != expand('%') ||
                 \ abs(line('.') - s:lastline) > s:distl ||
@@ -208,7 +219,7 @@ func! BlinkLineAndColumn()
                 sleep 50m
             endfor
 
-            " restore there shite
+            " restore their shite
             " exec " highlight " . substitute(his[0], "xxx", "", "")
             " exec " highlight " . substitute(his[1], 'xxx', "", "")
             call Colors()
