@@ -268,10 +268,6 @@ func! HighlightCurrentSearchWord()
 endfunc
 
 func! AutoHighlightCurrentWord()
-    if 1
-        return
-    endif
-
     try | call matchdelete(999) | catch *
     endtry
 
@@ -293,8 +289,10 @@ func! AutoHighlightCurrentWord()
 endfun
 
 func! NextCurrentWord(back)
-  norm! m`
-  call search('\c' . IgnoreCase().'\<'.g:curhighword.'\>', a:back)
+    if has_key(g:, 'curhighword')
+        norm! m`
+        call search('\c' . IgnoreCase().'\<'.g:curhighword.'\>', a:back)
+    endif
 endfunc
 nnoremap <silent>m :call NextCurrentWord('')<cr>zv
 nnoremap <silent>M :call NextCurrentWord('b')<cr>zv
