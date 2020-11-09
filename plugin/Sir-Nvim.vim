@@ -1,4 +1,5 @@
 let g:highlightactive=get(g:, 'highlightactive', 1)
+let g:autoHighCurrent=get(g:, 'autoHighCurrent', 0)
 if &bg=="dark"
     hi InnerScope ctermbg=234 ctermfg=none cterm=none
     hi OuterScope ctermbg=236 ctermfg=none cterm=none
@@ -273,17 +274,19 @@ func! AutoHighlightCurrentWord()
 
     if g:highlightactive
         let g:curhighword = expand("<cword>")
-        let g:smallest = 2
+        if g:autoHighCurrent
+            let g:smallest = 2
 
-        if s:skipthis()
-            return
-        endif
+            if s:skipthis()
+                return
+            endif
 
-        if !(g:curhighword == @/ && &hlsearch)
-            try
-                call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
-            catch E874
-            endtry
+            if !(g:curhighword == @/ && &hlsearch)
+                try
+                    call matchadd('InnerScope', IgnoreCase().'\<'.g:curhighword.'\>', -999999, 999)
+                catch E874
+                endtry
+            endif
         endif
     endif
 endfun
